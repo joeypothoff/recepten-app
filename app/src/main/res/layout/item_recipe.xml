@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/ivPlace"
+        android:id="@+id/ivRecipeImage"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
         android:contentDescription="@string/recept_image"
@@ -26,7 +26,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPlace" />
+        app:layout_constraintTop_toBottomOf="@+id/ivRecipeImage" />
 
     <TextView
         android:id="@+id/tvTime"

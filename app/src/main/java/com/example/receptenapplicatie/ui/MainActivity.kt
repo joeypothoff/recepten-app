@@ -5,11 +5,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.receptenapplicatie.R
+import com.example.receptenapplicatie.model.Recipe
+import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val recipes = arrayListOf<Recipe>()
+    private val recipeAdapter = RecipeAdapter(recipes) { recipe -> onRecipeClick(recipe) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,11 +27,22 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             startDetailActivity()
         }
+
+        initViews()
+    }
+
+    private fun initViews() {
+        rvRecepten.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        rvRecepten.adapter = recipeAdapter
     }
 
     private fun startDetailActivity() {
         val intent = Intent(this, RecipeDetailActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun onRecipeClick(recipe: Recipe) {
+        Snackbar.make(rvRecepten, "This recipe is: ${recipe.title}", Snackbar.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
