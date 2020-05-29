@@ -34,6 +34,27 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         rvRecepten.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         rvRecepten.adapter = recipeAdapter
+        recipes.add(
+            Recipe(
+                1000,
+                "Recipe 1",
+                "joey",
+                "30 min",
+                "Hier omen instructions",
+                "https://via.placeholder.com/150"
+            )
+        )
+        recipes.add(
+            Recipe(
+                1001,
+                "Recipe 2",
+                "joey",
+                "30 min",
+                "Hier omen instructions",
+                "https://via.placeholder.com/150"
+            )
+        )
+        recipeAdapter.notifyDataSetChanged()
     }
 
     private fun startDetailActivity() {

@@ -21,11 +21,10 @@ class RecipeAdapter (private val recipes: ArrayList<Recipe>, private val onClick
             }
         }
 
-
         fun bind(recipe : Recipe) {
             itemView.tvTitle.text = recipe.title
-            itemView.tvTime.text = recipe.totalminutes
-            Glide.with(context).load(recipe.image).into(itemView.ivRecipeImage)
+            itemView.tvPerson.text = recipe.username
+            Glide.with(context).load("https://s3.amazonaws.com/appsdeveloperblog/Micky.jpg").into(itemView.ivRecipeImage)
         }
     }
 
