@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.receptenapplicatie.R
-import kotlinx.android.synthetic.main.activity_recipe.*
 
 class RecipeDetailActivity : AppCompatActivity() {
 
@@ -28,7 +27,7 @@ class RecipeDetailActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.home -> {
+            android.R.id.home -> {
                 onBackPressed()
                 true
             }
