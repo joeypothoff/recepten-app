@@ -3,8 +3,10 @@
     <string name="action_settings">Settings</string>
     <string name="imageview">imageView</string>
     <string name="_30_min">30 min</string>
+    <string name="mintijd">%1$s min</string>
     <string name="ingredi_nten">Ingrediënten</string>
     <string name="persoon">Persoon</string>
+    <string name="tijd">Tijd</string>
     <string name="recipe_1">RECIPE 1</string>
     <string name="recept_image">Recept image</string>
 </resources>

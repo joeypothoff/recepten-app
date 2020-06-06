@@ -5,6 +5,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewTreeObserver
+import android.widget.GridLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.receptenapplicatie.R
@@ -16,8 +21,11 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: MainActivityViewModel
     private val recipes = arrayListOf<Recipe>()
-    private val recipeAdapter = RecipeAdapter(recipes) { recipe -> onRecipeClick(recipe) }
+    private val recipeAdapter = RecipeAdapter(recipes) {
+            recipe -> onRecipeClick(recipe)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,32 +37,49 @@ class MainActivity : AppCompatActivity() {
         }
 
         initViews()
+        initViewModel()
     }
 
     private fun initViews() {
-        rvRecepten.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        val gridLayoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        rvRecepten.layoutManager = gridLayoutManager
         rvRecepten.adapter = recipeAdapter
-        recipes.add(
-            Recipe(
-                1000,
-                "Recipe 1",
-                "joey",
-                "30 min",
-                "Hier omen instructions",
-                "https://via.placeholder.com/150"
-            )
-        )
-        recipes.add(
-            Recipe(
-                1001,
-                "Recipe 2",
-                "joey",
-                "30 min",
-                "Hier omen instructions",
-                "https://via.placeholder.com/150"
-            )
-        )
+
+        rvRecepten.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                rvRecepten.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                gridLayoutManager.spanCount = calculateSpanCount()
+                gridLayoutManager.requestLayout()
+            }
+        })
+
         recipeAdapter.notifyDataSetChanged()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+        viewModel.recipes.observe(this, Observer {
+            recipes.clear()
+            it.results.forEach{
+                recipes.add(it)
+            }
+            recipeAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.getRecipeList()
+    }
+
+    /**
+     * Calculate the number of spans for the recycler view based on the recycler view width.
+     * @return int number of spans.
+     */
+    private fun calculateSpanCount(): Int {
+        val viewWidth = rvRecepten.measuredWidth
+        val cardViewWidth = resources.getDimension(R.dimen.poster_width)
+        val cardViewMargin = resources.getDimension(R.dimen.margin_medium)
+        val spanCount = Math.floor((viewWidth / (cardViewWidth + cardViewMargin)).toDouble()).toInt()
+        return if (spanCount >= 2) spanCount else 2
     }
 
     private fun startDetailActivity() {
@@ -63,7 +88,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onRecipeClick(recipe: Recipe) {
-        Snackbar.make(rvRecepten, "This recipe is: ${recipe.title}", Snackbar.LENGTH_LONG).show()
+        val intent = Intent(this, RecipeDetailActivity::class.java)
+        intent.putExtra(EXTRA_RECIPE, recipe)
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -80,5 +107,9 @@ class MainActivity : AppCompatActivity() {
             R.id.home -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    companion object {
+        const val EXTRA_RECIPE = "EXTRA_RECIPE"
     }
 }

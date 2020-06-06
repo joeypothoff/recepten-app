@@ -1,6 +1,7 @@
 package com.example.receptenapplicatie.ui
 
 import android.content.Context
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,8 @@ class RecipeAdapter (private val recipes: ArrayList<Recipe>, private val onClick
 
         fun bind(recipe : Recipe) {
             itemView.tvTitle.text = recipe.title
-            itemView.tvPerson.text = recipe.username
-            Glide.with(context).load("https://s3.amazonaws.com/appsdeveloperblog/Micky.jpg").into(itemView.ivRecipeImage)
+            itemView.tvTijd.text = context.getString(R.string.mintijd, recipe.readyInMinutes)
+            Glide.with(context).load(recipe.getRecipeImage()).into(itemView.ivRecipeImage)
         }
     }
 
