@@ -1,6 +1,6 @@
 package com.example.receptenapplicatie.database
 
-import com.example.receptenapplicatie.model.RecipeDetailsList
+import com.example.receptenapplicatie.model.RecipeDetails
 import com.example.receptenapplicatie.model.RecipeList
 import retrofit2.Call
 
@@ -12,7 +12,7 @@ class RecipeRepository {
         return recipeApi.getRecipes()
     }
 
-    fun getRecipeDetails(id: String): Call<RecipeDetailsList> {
+    fun getRecipeDetails(id: Int): Call<RecipeDetails> {
         return recipeApi.getRecipeDetails(id)
     }
 }

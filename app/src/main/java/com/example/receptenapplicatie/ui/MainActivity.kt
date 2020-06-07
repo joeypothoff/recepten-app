@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.receptenapplicatie.R
 import com.example.receptenapplicatie.model.Recipe
+import com.example.receptenapplicatie.model.RecipeDetails
 import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.activity_main.*

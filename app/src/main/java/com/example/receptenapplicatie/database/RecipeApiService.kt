@@ -1,6 +1,7 @@
 package com.example.receptenapplicatie.database
 
 import com.example.receptenapplicatie.BuildConfig
+import com.example.receptenapplicatie.model.RecipeDetails
 import com.example.receptenapplicatie.model.RecipeDetailsList
 import com.example.receptenapplicatie.model.RecipeList
 import retrofit2.Call
@@ -18,6 +19,6 @@ interface RecipeApiService {
     /**
      * Return specific recipe information
      */
-    @GET("https://api.spoonacular.com/recipes/{id}/information")
-    fun getRecipeDetails(@Path("id") id: String) : Call<RecipeDetailsList>
+    @GET("https://api.spoonacular.com/recipes/{id}/information?apiKey=${BuildConfig.RECIPES_API_KEY}&includeNutrition=false")
+    fun getRecipeDetails(@Path("id") id: Int) : Call<RecipeDetails>
 }
