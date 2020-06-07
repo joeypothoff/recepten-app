@@ -32,10 +32,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            startDetailActivity()
-        }
-
         initViews()
         initViewModel()
     }
@@ -80,11 +76,6 @@ class MainActivity : AppCompatActivity() {
         val cardViewMargin = resources.getDimension(R.dimen.margin_medium)
         val spanCount = Math.floor((viewWidth / (cardViewWidth + cardViewMargin)).toDouble()).toInt()
         return if (spanCount >= 2) spanCount else 2
-    }
-
-    private fun startDetailActivity() {
-        val intent = Intent(this, RecipeDetailActivity::class.java)
-        startActivity(intent)
     }
 
     private fun onRecipeClick(recipe: Recipe) {
