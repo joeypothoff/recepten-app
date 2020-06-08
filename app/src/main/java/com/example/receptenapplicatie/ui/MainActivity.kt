@@ -6,16 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver
-import android.widget.GridLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.receptenapplicatie.R
 import com.example.receptenapplicatie.model.Recipe
-import com.example.receptenapplicatie.model.RecipeDetails
-import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -51,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         recipeAdapter.notifyDataSetChanged()
+
     }
 
     private fun initViewModel() {
@@ -85,6 +81,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun onFavoritesClick() {
+        val intent = Intent(this, FavoritesActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -92,13 +93,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.home -> true
-            else -> super.onOptionsItemSelected(item)
+        if(item.itemId == R.id.action_settings) {
+            onFavoritesClick()
         }
+        return true
     }
 
     companion object {

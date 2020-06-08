@@ -7,7 +7,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/ivRecipeImage"
+        android:id="@+id/ivFavoriteImage"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:contentDescription="@string/recept_image"
@@ -18,20 +18,21 @@
         app:srcCompat="@drawable/recipe" />
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvFavoriteTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/recipe_1"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvFavoriteTijd"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tvTijd"
-        app:layout_constraintTop_toBottomOf="@+id/ivRecipeImage" />
+        app:layout_constraintTop_toBottomOf="@+id/ivFavoriteImage" />
 
     <TextView
-        android:id="@+id/tvTijd"
+        android:id="@+id/tvFavoriteTijd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -39,8 +40,8 @@
         android:layout_marginBottom="8dp"
         android:text="@string/tijd"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ivFavoriteStar"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvFavoriteTitle"
+        app:layout_constraintBottom_toTopOf="@id/ivFavoriteStar" />
 
     <ImageView
         android:id="@+id/ivFavoriteStar"
@@ -51,6 +52,7 @@
         android:contentDescription="@string/favorite_star"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTijd"
-        tools:srcCompat="@drawable/ic_star_border_yellow_24dp" />
+        app:layout_constraintTop_toBottomOf="@id/tvFavoriteTijd"
+        tools:srcCompat="@drawable/ic_star_yellow_24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

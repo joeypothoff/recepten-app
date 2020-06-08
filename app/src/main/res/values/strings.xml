@@ -9,4 +9,6 @@
     <string name="tijd">Tijd</string>
     <string name="recipe_1">RECIPE 1</string>
     <string name="recept_image">Recept image</string>
+    <string name="favorite_star">Favorite star</string>
+    <string name="favorieten">Favorieten</string>
 </resources>

@@ -1,19 +1,26 @@
 package com.example.receptenapplicatie.ui
 
 import android.content.Context
-import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.receptenapplicatie.R
+import com.example.receptenapplicatie.database.RecipeFavoritesRepository
 import com.example.receptenapplicatie.model.Recipe
+import com.example.receptenapplicatie.model.RecipeEntity
 import kotlinx.android.synthetic.main.item_recipe.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RecipeAdapter (private val recipes: ArrayList<Recipe>, private val onClick: (Recipe) -> Unit): RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     private lateinit var context: Context
+    private val mainScope = CoroutineScope(Dispatchers.Main)
+    private lateinit var recipeFavoritesRepository: RecipeFavoritesRepository
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
@@ -26,6 +33,23 @@ class RecipeAdapter (private val recipes: ArrayList<Recipe>, private val onClick
             itemView.tvTitle.text = recipe.title
             itemView.tvTijd.text = context.getString(R.string.mintijd, recipe.readyInMinutes)
             Glide.with(context).load(recipe.getRecipeImage()).into(itemView.ivRecipeImage)
+            Glide.with(context).load(R.drawable.ic_star_border_yellow_24dp).into(itemView.ivFavoriteStar)
+
+            itemView.ivFavoriteStar.setOnClickListener {
+                mainScope.launch {
+                    withContext(Dispatchers.IO) {
+                        recipeFavoritesRepository = RecipeFavoritesRepository(context)
+                        recipeFavoritesRepository.insertFavorite(
+                            RecipeEntity(
+                                recipe.id,
+                                itemView.tvTitle.text.toString(),
+                                context.getString(R.string.mintijd, itemView.tvTijd.text.toString()),
+                                itemView.ivRecipeImage.toString()
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 
