@@ -1,8 +1,10 @@
 package com.example.receptenapplicatie.ui
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.receptenapplicatie.R
 import com.example.receptenapplicatie.database.RecipeFavoritesRepository
 import com.example.receptenapplicatie.model.RecipeEntity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.content_favorites.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +21,10 @@ import kotlinx.coroutines.withContext
 
 class FavoritesActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: RecipeDetailActivityViewModel
     private val favorites = arrayListOf<RecipeEntity>()
     private val favoritesAdapter = FavoritesAdapter(favorites)
     private lateinit var recipeFavoritesRepository: RecipeFavoritesRepository
+    private val viewModelRecipe: FavoritesActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,9 +80,25 @@ class FavoritesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == android.R.id.home) {
-            onBackPressed()
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+
+            R.id.deleteFavorites -> {
+                viewModelRecipe.deleteAllFavorites()
+                Snackbar.make(findViewById(R.id.rvFavorites), "Favorieten zijn verwijderd", Snackbar.LENGTH_SHORT).show()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_favorites, menu)
         return true
     }
 

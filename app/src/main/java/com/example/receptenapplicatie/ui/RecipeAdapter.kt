@@ -10,6 +10,7 @@ import com.example.receptenapplicatie.R
 import com.example.receptenapplicatie.database.RecipeFavoritesRepository
 import com.example.receptenapplicatie.model.Recipe
 import com.example.receptenapplicatie.model.RecipeEntity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.item_recipe.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,15 +37,16 @@ class RecipeAdapter (private val recipes: ArrayList<Recipe>, private val onClick
             Glide.with(context).load(R.drawable.ic_star_border_yellow_24dp).into(itemView.ivFavoriteStar)
 
             itemView.ivFavoriteStar.setOnClickListener {
+                Snackbar.make(it, "Favoriet toegevoegd", Snackbar.LENGTH_LONG).show()
                 mainScope.launch {
                     withContext(Dispatchers.IO) {
                         recipeFavoritesRepository = RecipeFavoritesRepository(context)
                         recipeFavoritesRepository.insertFavorite(
                             RecipeEntity(
                                 recipe.id,
-                                itemView.tvTitle.text.toString(),
-                                context.getString(R.string.mintijd, itemView.tvTijd.text.toString()),
-                                itemView.ivRecipeImage.toString()
+                                recipe.title,
+                                recipe.readyInMinutes,
+                                recipe.getRecipeImage()
                             )
                         )
                     }
